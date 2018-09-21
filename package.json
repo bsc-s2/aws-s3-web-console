@@ -2,16 +2,13 @@
   "name": "aws-s3-web-console",
   "version": "0.1.0",
   "private": true,
-  "author": {
-    "name": "adwerrd",
-    "email": "adwerrd@hotmail.com"
-  },
   "scripts": {
-    "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "vue-cli-service serve"
   },
   "dependencies": {
+    "element-ui": "^2.4.5",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -21,17 +18,11 @@
     "@vue/cli-plugin-eslint": "^3.0.1",
     "@vue/cli-service": "^3.0.1",
     "@vue/eslint-config-prettier": "^3.0.3",
+    "babel-plugin-component": "^1.1.1",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
+    "vue-cli-plugin-element": "^1.0.0",
     "vue-template-compiler": "^2.5.17"
-  },
-  "prettier": {
-    "semi": false,
-    "trailingComma": "all",
-    "useTabs": false,
-    "bracketSpacing": true,
-    "arrowParens": "always",
-    "singleQuote": true
   },
   "eslintConfig": {
     "root": true,
@@ -84,6 +75,14 @@
       "$": false
     }
   },
+  "prettier": {
+    "semi": false,
+    "trailingComma": "all",
+    "useTabs": false,
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "singleQuote": true
+  },
   "postcss": {
     "plugins": {
       "autoprefixer": {}
@@ -93,5 +92,9 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "author": {
+    "name": "adwerrd",
+    "email": "adwerrd@hotmail.com"
+  }
 }
