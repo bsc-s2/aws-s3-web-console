@@ -1,3 +1,21 @@
-# aws-s3-web-console
+# hello-world
 
-开个坑，慢慢做吧
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```

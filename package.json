@@ -1,0 +1,97 @@
+{
+  "name": "aws-s3-web-console",
+  "version": "0.1.0",
+  "private": true,
+  "author": {
+    "name": "adwerrd",
+    "email": "adwerrd@hotmail.com"
+  },
+  "scripts": {
+    "start": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.1",
+    "@vue/cli-plugin-eslint": "^3.0.1",
+    "@vue/cli-service": "^3.0.1",
+    "@vue/eslint-config-prettier": "^3.0.3",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "prettier": {
+    "semi": false,
+    "trailingComma": "all",
+    "useTabs": false,
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "singleQuote": true
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/prettier"
+    ],
+    "rules": {
+      "radix": 0,
+      "no-return-assign": 0,
+      "no-empty-function": 0,
+      "no-param-reassign": 0,
+      "no-extra-boolean-cast": 0,
+      "no-new": 0,
+      "array-callback-return": 0,
+      "complexity": 0,
+      "no-empty": 0,
+      "no-undefined": 0,
+      "semi": [
+        "error",
+        "never"
+      ],
+      "no-unexpected-multiline": 0,
+      "no-multiple-empty-lines": 0,
+      "no-sequences": 0,
+      "no-control-regex": 0,
+      "no-mixed-spaces-and-tabs": [
+        "error",
+        "smart-tabs"
+      ],
+      "vue/valid-v-model": 0,
+      "vue/no-parsing-error": 0,
+      "arrow-parens": 0,
+      "comma-dangle": [
+        "error",
+        "always-multiline"
+      ],
+      "generator-star-spacing": 0,
+      "prefer-promise-reject-errors": 0
+    },
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "globals": {
+      "_": false,
+      "$t": false,
+      "$": false
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
