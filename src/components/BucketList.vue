@@ -15,7 +15,8 @@
                      width="150">
       <template slot-scope="scope">
         <el-button type="text"
-                   size="small">View</el-button>
+                   size="small"
+                   @click="viewBucket(scope.row)">View</el-button>
         <el-button type="text"
                    size="small">Edit</el-button>
         <el-button type="text"
@@ -34,6 +35,11 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getBuckets', {})
+  },
+  methods: {
+    viewBucket(row) {
+      this.$router.push(`/file/${row.Name}`)
+    },
   },
 }
 </script>

@@ -52,12 +52,6 @@ export default {
     hasPrefix() {
       return this.$route.params.prefix !== undefined
     },
-    prefix() {
-      return this.$route.params.prefix
-    },
-    bucketList() {
-      return this.$store.state.bucketList
-    },
   },
   components: { bucketNav, bucketList, fileList },
   methods: {

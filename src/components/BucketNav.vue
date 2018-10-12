@@ -1,7 +1,11 @@
 <template>
-  <div class="wrap" v-if="bucketList.length > 0">
+  <div class="wrap"
+       v-if="selectedBucket.length > 0">
     <ul>
-      <li v-for="bucket in bucketList" :class="{ selected: bucket.selected }" :key="bucket.Name">{{bucket.Name}}</li>
+      <li v-for="bucket in bucketList"
+          @click="viewBucket(bucket)"
+          :class="{ 'selected': bucket.Name === selectedBucket }"
+          :key="bucket.Name">{{bucket.Name}}</li>
     </ul>
   </div>
 </template>
@@ -12,9 +16,21 @@ export default {
     bucketList() {
       return this.$store.state.bucketList
     },
+    selectedBucket() {
+      return (
+        (this.$route.params.prefix &&
+          this.$route.params.prefix.split('/')[0]) ||
+        ''
+      )
+    },
   },
   mounted() {
     this.$store.dispatch('getBuckets', {})
+  },
+  methods: {
+    viewBucket(row) {
+      this.$router.push(`/file/${row.Name}`)
+    },
   },
 }
 </script>
@@ -36,7 +52,7 @@ li {
 li:hover {
   background-color: #f5f7fa;
 }
-li .selected {
+li.selected {
   color: #409eff;
   background-color: #f5f7fa;
 }
