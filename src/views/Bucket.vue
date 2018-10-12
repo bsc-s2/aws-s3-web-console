@@ -68,7 +68,7 @@ export default {
       this.bucketList = buckets.Buckets
     },
     async logout() {
-      await this.$store.dispatch('SET_KEYS', {})
+      await this.$store.dispatch('setKeys', {})
       this.$router.push({ name: 'login' })
     },
   },
