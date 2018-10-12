@@ -1,15 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
-      path: '/bucket',
+      path: '',
       name: 'bucket',
+      meta: { requiresKeys: true },
       component: () =>
-        import(/* webpackChunkName: "login" */ './views/Bucket.vue'),
+        import(/* webpackChunkName: "bucket" */ './views/Bucket.vue'),
     },
     {
       path: '/login',
@@ -25,3 +27,13 @@ export default new Router({
     },
   ],
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresKeys)) {
+    store.getters.hasKeys ? next() : next({ path: '/login' })
+  } else {
+    next()
+  }
+})
+
+export default router

@@ -13,14 +13,12 @@ export const getKey = async () => {
 }
 
 export const config = async ({
-  key,
   timeout = 10000,
   host = awshost,
   s3ForcePathStyle,
   region = 'us-west-1',
 }) => {
-  let _key =
-    key && key.accesskey && key.accesskey.length > 0 ? key : await getKey()
+  let _key = Object.keys(awsKey).length > 0 ? awsKey : await getKey()
   AWS.config.update({
     accessKeyId: _key.accesskey,
     secretAccessKey: _key.secretkey,
@@ -33,11 +31,11 @@ export const config = async ({
 
 export const getS3 = async ({
   timeout = 10000,
-  key = awsKey,
   host = awshost,
   s3ForcePathStyle = true,
 } = {}) => {
-  await config({ key, timeout, host, s3ForcePathStyle })
+  Object.keys(awsKey).length === 0 &&
+    (await config({ timeout, host, s3ForcePathStyle }))
   return new AWS.S3()
 }
 

@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    keys: sessionStorage.getItem('keys') || {},
+    keys: JSON.parse(sessionStorage.getItem('keys')) || {},
     buckets: {},
   },
   actions: {
@@ -25,12 +25,17 @@ export default new Vuex.Store({
   },
   mutations: {
     SET_KEYS(state, keys) {
-      sessionStorage.setItem('keys', keys)
+      sessionStorage.setItem('keys', JSON.stringify(keys))
       state.keys = keys
     },
     SET_VALUES(state, data) {
       const _state = Object.assign(state, data)
       state = _state
+    },
+  },
+  getters: {
+    hasKeys(state) {
+      return Object.keys(state.buckets).length > 0
     },
   },
 })

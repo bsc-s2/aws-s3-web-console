@@ -22,4 +22,7 @@ body,
 html {
   margin: 0;
 }
+.el-aside {
+  padding: 20px 0 20px 20px;
+}
 </style>
