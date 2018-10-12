@@ -2,47 +2,41 @@
   <div>
     <el-container>
       <el-aside width="200px">
-        <el-card>
-          <el-button type="primary" size="mini" @click="logout">Logout</el-button>
-        </el-card>
-        <el-card class="bucket-nav-card">
+        <el-card class="bucket-nav-card"
+                 shadow="hover">
           <div>
-            <el-button type="primary" size="mini">New Bucket</el-button>
-            <bucketNav :bucketList="bucketList"></bucketNav>
+            <el-button type="primary"
+                       size="mini">New Bucket</el-button>
+            <bucketNav></bucketNav>
           </div>
         </el-card>
       </el-aside>
       <el-main>
-        <el-card>
-          <el-table ref="multipleTable"
-                    :data="bucketList"
-                    tooltip-effect="dark">
-            <el-table-column type="selection">
-            </el-table-column>
-            <el-table-column prop="Name"
-                            label="Bucket">
-            </el-table-column>
-            <el-table-column prop="CreationDate"
-                            label="CreationDate">
-            </el-table-column>
-            <el-table-column
-              label="Actions"
-              width="150">
-              <template slot-scope="scope">
-                <el-button type="text" size="small">View</el-button>
-                <el-button type="text" size="small">Edit</el-button>
-                <el-button type="text" size="small">Delete</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
+        <el-card v-if="hasPrefix"
+                 class="breadcrumb"
+                 shadow="hover">
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item>Bucket List</el-breadcrumb-item>
+            <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+            <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-card>
+        <el-card v-if="!hasPrefix"
+                 shadow="hover">
+          <bucketList></bucketList>
+        </el-card>
+        <el-card v-if="hasPrefix"
+                 shadow="hover">
+          <fileList :fileList="fileList"></fileList>
         </el-card>
       </el-main>
     </el-container>
   </div>
 </template>
 <script>
-import moment from 'moment'
 import bucketNav from '@/components/BucketNav'
+import bucketList from '@/components/BucketList'
+import fileList from '@/components/FileList'
 export default {
   name: 'bucket',
   data() {
@@ -51,22 +45,22 @@ export default {
       fetchDone: false,
       createBucketModal: false,
       inputCheck: false,
-      bucketList: [],
+      fileList: [],
     }
   },
-  components: { bucketNav },
-  created() {
-    this.getBucketList()
-  },
-  methods: {
-    async getBucketList(forceUpdate = false) {
-      const buckets = await this.$store.dispatch('getBuckets', forceUpdate)
-      this.fetchDone = true
-      buckets.Buckets.forEach((item) => {
-        item.CreationDate = moment(item.CreationDate).format('YYYY-MM-DD HH:mm')
-      })
-      this.bucketList = buckets.Buckets
+  computed: {
+    hasPrefix() {
+      return this.$route.params.prefix !== undefined
     },
+    prefix() {
+      return this.$route.params.prefix
+    },
+    bucketList() {
+      return this.$store.state.bucketList
+    },
+  },
+  components: { bucketNav, bucketList, fileList },
+  methods: {
     async logout() {
       await this.$store.dispatch('setKeys', {})
       this.$router.push({ name: 'login' })
@@ -80,7 +74,10 @@ export default {
   width: 50px;
   margin: 0 auto;
 }
-.bucket-nav-card {
-  margin-top: 20px;
+.logout-button {
+  margin: 4px 0 4px;
+}
+.breadcrumb {
+  margin-bottom: 12px;
 }
 </style>

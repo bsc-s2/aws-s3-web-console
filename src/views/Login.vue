@@ -59,7 +59,7 @@ export default {
     },
     async setKeysAndGetBuckets() {
       await this.$store.dispatch('setKeys', this.awsKeys)
-      const buckets = await this.$store.dispatch('getBuckets')
+      const buckets = await this.$store.dispatch('getBuckets', {})
       if (Object.keys(buckets).length > 0) {
         this.$router.push({ name: 'bucket' })
       }

@@ -1,22 +1,20 @@
 <template>
   <div class="wrap" v-if="bucketList.length > 0">
     <ul>
-      <li v-for="bucket in bucketList" :key="bucket.Name">{{bucket.Name}}</li>
+      <li v-for="bucket in bucketList" :class="{ selected: bucket.selected }" :key="bucket.Name">{{bucket.Name}}</li>
     </ul>
   </div>
 </template>
 <script>
 export default {
   name: 'BucketNav',
-  props: {
-    bucketList: {
-      type: Array,
-      required: true,
-      default: () => [],
+  computed: {
+    bucketList() {
+      return this.$store.state.bucketList
     },
   },
-  data() {
-    return {}
+  mounted() {
+    this.$store.dispatch('getBuckets', {})
   },
 }
 </script>
@@ -33,6 +31,7 @@ ul {
 }
 li {
   padding: 12px 4px;
+  cursor: pointer;
 }
 li:hover {
   background-color: #f5f7fa;

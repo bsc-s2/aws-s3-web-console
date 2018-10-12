@@ -7,8 +7,15 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '',
+      path: '/',
       name: 'bucket',
+      meta: { requiresKeys: true },
+      component: () =>
+        import(/* webpackChunkName: "bucket" */ './views/Bucket.vue'),
+    },
+    {
+      path: '/file/:prefix',
+      name: 'file',
       meta: { requiresKeys: true },
       component: () =>
         import(/* webpackChunkName: "bucket" */ './views/Bucket.vue'),

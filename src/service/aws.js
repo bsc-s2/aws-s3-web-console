@@ -34,8 +34,7 @@ export const getS3 = async ({
   host = awshost,
   s3ForcePathStyle = true,
 } = {}) => {
-  Object.keys(awsKey).length === 0 &&
-    (await config({ timeout, host, s3ForcePathStyle }))
+  await config({ timeout, host, s3ForcePathStyle })
   return new AWS.S3()
 }
 
