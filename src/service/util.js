@@ -5,9 +5,8 @@ const convertPrefix2Router = (prefix) => {
     let prefixArray = prefix.split('/')
     let routeArray = []
 
-    prefixArray.pop()
-    _.each(prefixArray, (item, index) => {
-      let copyArray = _.clone(prefixArray)
+    prefixArray.forEach((item, index) => {
+      let copyArray = [...prefixArray]
       copyArray.length = index + 1
       routeArray.push({
         text: item,

@@ -16,9 +16,8 @@
                  class="breadcrumb"
                  shadow="hover">
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item>Bucket List</el-breadcrumb-item>
-            <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-            <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/' }">Bucket List</el-breadcrumb-item>
+            <el-breadcrumb-item :key="text" v-for="{ text, prefix } in breadcrumb" :to="{ path: prefix }">{{ text }}</el-breadcrumb-item>
           </el-breadcrumb>
         </el-card>
         <el-card v-if="!hasPrefix"
@@ -37,6 +36,7 @@
 import bucketNav from '@/components/BucketNav'
 import bucketList from '@/components/BucketList'
 import fileList from '@/components/FileList'
+import { convertPrefix2Router } from '@/service/util'
 export default {
   name: 'bucket',
   data() {
@@ -51,6 +51,9 @@ export default {
   computed: {
     hasPrefix() {
       return this.$route.params.prefix !== undefined
+    },
+    breadcrumb() {
+      return convertPrefix2Router(this.$route.params.prefix)
     },
   },
   components: { bucketNav, bucketList, fileList },
