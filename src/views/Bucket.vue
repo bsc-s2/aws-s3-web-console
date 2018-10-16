@@ -17,7 +17,7 @@
                  shadow="hover">
           <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/' }">Bucket List</el-breadcrumb-item>
-            <el-breadcrumb-item :key="text" v-for="{ text, prefix } in breadcrumb" :to="{ path: prefix }">{{ text }}</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="{ text, prefix } in breadcrumb" :key="text" :to="{ path: prefix }">{{ text }}</el-breadcrumb-item>
           </el-breadcrumb>
         </el-card>
         <el-card v-if="!hasPrefix"

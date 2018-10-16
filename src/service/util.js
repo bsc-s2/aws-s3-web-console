@@ -50,4 +50,22 @@ const bytesSpliteUnits = (bt, digit = 1) => {
 
 const isImage = (file) => !!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(file.Key)
 
-export { keyFilter, convertPrefix2Router, bytes, bytesSpliteUnits, isImage }
+const repliceAllString = (strings, oldStr, newStr) => {
+  let str = strings
+  while (str.indexOf(oldStr) > 0) {
+    str = str.replace(
+      oldStr,
+      str.indexOf(oldStr) !== str.lastIndexOf(oldStr) ? newStr : '',
+    )
+  }
+  return str
+}
+
+export {
+  keyFilter,
+  convertPrefix2Router,
+  bytes,
+  bytesSpliteUnits,
+  isImage,
+  repliceAllString,
+}

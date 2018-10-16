@@ -19,8 +19,11 @@
                      width="150">
       <template slot-scope="scope">
         <el-button type="text"
+                   v-show="scope.row.type === 'folder'"
+                   @click="viewFolder(scope.row)"
                    size="small">View</el-button>
         <el-button type="text"
+                   v-show="scope.row.type !== 'folder'"
                    size="small">Edit</el-button>
         <el-button type="text"
                    size="small">Delete</el-button>
@@ -31,7 +34,7 @@
 <script>
 import moment from 'moment'
 import { handler } from '@/service/aws'
-import { keyFilter, bytes, isImage } from '@/service/util'
+import { keyFilter, bytes, isImage, repliceAllString } from '@/service/util'
 export default {
   name: 'fileList',
   data() {
@@ -72,7 +75,7 @@ export default {
         this.nextMarker = res.NextMarker
         this.fileList = res.CommonPrefixes.map((foler) => {
           foler.Key = keyFilter(foler.Prefix, self.prefix)
-          foler.Type = 'folder'
+          foler.type = 'folder'
           foler.LastModified = ''
           foler.convertSize = ''
           return foler
@@ -80,7 +83,7 @@ export default {
           res.Contents.map((item) => {
             item.Key = keyFilter(item.Key, self.prefix)
             item.convertSize = bytes(item.Size)
-            item.Type = 'file'
+            item.type = 'file'
             item.isImage = isImage(item)
             item.LastModified = moment(item.LastModified).format(
               'YYYY-MM-DD HH:mm',
@@ -92,6 +95,15 @@ export default {
       } catch (error) {
         this.loading = false
       }
+    },
+    viewFolder(folder) {
+      this.$router.push(
+        `/file/${repliceAllString(
+          this.bucket + '/' + folder.Prefix,
+          '/',
+          '%2F',
+        )}`,
+      )
     },
   },
   watch: {
