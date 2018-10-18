@@ -8,7 +8,7 @@
     "start": "vue-cli-service serve"
   },
   "dependencies": {
-    "aws-sdk": "2.33.0",
+    "aws-sdk": "2.335.0",
     "element-ui": "^2.4.5",
     "moment": "^2.22.2",
     "vue": "^2.5.17",
