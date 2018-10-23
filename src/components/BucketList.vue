@@ -1,24 +1,22 @@
 <template>
   <el-table ref="multipleTable"
             stripe
+            :height="tableHeight"
             :data="bucketList"
             tooltip-effect="dark">
-    <el-table-column type="selection">
-    </el-table-column>
     <el-table-column prop="Name"
                      label="Bucket">
     </el-table-column>
     <el-table-column prop="CreationDate"
+                     width="180"
                      label="CreationDate">
     </el-table-column>
     <el-table-column label="Actions"
                      width="150">
-      <template slot-scope="scope">
+      <template slot-scope="{ row }">
         <el-button type="text"
                    size="small"
-                   @click="viewBucket(scope.row)">View</el-button>
-        <el-button type="text"
-                   size="small">Edit</el-button>
+                   @click="viewBucket(row)">View</el-button>
         <el-button type="text"
                    size="small">Delete</el-button>
       </template>
@@ -31,6 +29,15 @@ export default {
   computed: {
     bucketList() {
       return this.$store.state.bucketList
+    },
+    tableHeight() {
+      const scrollHeight = document.querySelector('body').offsetHeight
+      const bucketListLength =
+        (this.$store.state.bucketList && this.$store.state.bucketList.length) ||
+        0
+      return bucketListLength * 57 < scrollHeight
+        ? undefined
+        : scrollHeight - 146
     },
   },
   mounted() {

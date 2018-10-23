@@ -10,6 +10,9 @@
             <bucketNav></bucketNav>
           </div>
         </el-card>
+        <el-card shadow="hover" style="margin-top: 20px">
+          <el-button size="mini" type="danger" @click="logout">Logout</el-button>
+        </el-card>
       </el-aside>
       <el-main>
         <el-card v-if="hasPrefix"
@@ -30,12 +33,18 @@
         </el-card>
       </el-main>
     </el-container>
+    <footerBar>
+      <div class="logout" slot="right">
+        <el-button size="small" type="danger" @click="logout">Logout</el-button>
+      </div>
+    </footerBar>
   </div>
 </template>
 <script>
 import bucketNav from '@/components/BucketNav'
 import bucketList from '@/components/BucketList'
 import fileList from '@/components/FileList'
+import footerBar from '@/components/FooterBar'
 import { convertPrefix2Router } from '@/service/util'
 export default {
   name: 'bucket',
@@ -56,7 +65,7 @@ export default {
       return convertPrefix2Router(this.$route.params.prefix)
     },
   },
-  components: { bucketNav, bucketList, fileList },
+  components: { bucketNav, bucketList, fileList, footerBar },
   methods: {
     async logout() {
       await this.$store.dispatch('setKeys', {})
@@ -71,8 +80,10 @@ export default {
   width: 50px;
   margin: 0 auto;
 }
-.logout-button {
-  margin: 4px 0 4px;
+.logout {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 .breadcrumb {
   margin-bottom: 12px;

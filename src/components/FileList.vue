@@ -1,39 +1,64 @@
 <template>
-  <el-table ref="multipleTable"
-            stripe
-            :data="fileList"
-            v-loading="loading"
-            tooltip-effect="dark">
-    <el-table-column type="selection">
-    </el-table-column>
-    <el-table-column prop="Key"
-                     label="Key">
-    </el-table-column>
-    <el-table-column prop="Size"
-                     label="Size">
-    </el-table-column>
-    <el-table-column prop="LastModified"
-                     label="LastModified">
-    </el-table-column>
-    <el-table-column label="Actions"
-                     width="150">
-      <template slot-scope="scope">
-        <el-button type="text"
-                   v-show="scope.row.type === 'folder'"
-                   @click="viewFolder(scope.row)"
-                   size="small">View</el-button>
-        <el-button type="text"
-                   v-show="scope.row.type !== 'folder'"
-                   size="small">Edit</el-button>
-        <el-button type="text"
-                   size="small">Delete</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div class="file-list">
+    <div class="actions-bar">
+      <el-button type="primary"
+                 size="small"
+                 @click="dialogVisible = true">Upload</el-button>
+      <el-button type="primary"
+                 size="small">New folder</el-button>
+      <el-button type="danger"
+                 :disabled="fileList.length === 0"
+                 size="small">Delete</el-button>
+    </div>
+    <el-table ref="multipleTable"
+              stripe
+              :height="tableHeight"
+              empty-text="No files"
+              :data="fileList"
+              v-loading="loading"
+              tooltip-effect="dark">
+      <el-table-column type="selection">
+      </el-table-column>
+      <el-table-column prop="Key"
+                       label="Key"
+                       show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column prop="convertSize"
+                       label="Size"
+                       width="110">
+      </el-table-column>
+      <el-table-column prop="LastModified"
+                       label="LastModified"
+                       width="150">
+      </el-table-column>
+      <el-table-column label="Actions"
+                       width="200">
+        <template slot-scope="scope">
+          <el-button type="text"
+                     v-show="scope.row.type === 'folder'"
+                     @click="viewFolder(scope.row)"
+                     size="small">View</el-button>
+          <el-button type="text"
+                     v-show="scope.row.type !== 'folder'"
+                     size="small">Edit</el-button>
+          <el-button type="text"
+                     size="small">Delete</el-button>
+        </template>
+      </el-table-column>
+      <div v-if="nextMarker" slot="append" class="append-row">
+        <el-button size="small" icon="el-icon-arrow-left">Before pages</el-button>
+        <el-button v-if="nextMarker" size="small">Next pages <i class="el-icon-arrow-right"></i></el-button>
+      </div>
+    </el-table>
+    <el-dialog title="收货地址" :visible.sync="dialogVisible">
+      <upload :bucket="bucket" :prefix="prefix"></upload>
+    </el-dialog>
+  </div>
 </template>
 <script>
 import moment from 'moment'
 import { handler } from '@/service/aws'
+import upload from './Upload'
 import { keyFilter, bytes, isImage, repliceAllString } from '@/service/util'
 export default {
   name: 'fileList',
@@ -41,20 +66,33 @@ export default {
     return {
       fileList: [],
       loading: false,
+      nextMarker: '',
+      makerArray: [],
+      dialogVisible: false,
     }
   },
+  components: { upload },
   computed: {
     bucket() {
       return this.$route.params.prefix.split('/')[0]
     },
     prefix() {
-      return this.$route.params.prefix &&
-        this.$route.params.prefix.split('/').length > 1
-        ? '/' +
-            this.$route.params.prefix
-              .split('/')
-              .reduce((accu, currnet, index) => index !== 0 && accu + currnet)
-        : ''
+      const prefixArray = repliceAllString(
+        this.$route.params.prefix,
+        '%2F',
+        '/',
+      ).split('/')
+      prefixArray.shift()
+      return prefixArray.length > 0 ? prefixArray.join('/') + '/' : ''
+    },
+    tableHeight() {
+      const tableMaxHeight = document.querySelector('body').offsetHeight - 246
+      const tableHeight =
+        this.fileList.length > 0
+          ? // table row's height = 57px & table padding total = 96px
+            this.fileList.length * 57 + (this.fileList.length > 100 ? 154 : 96)
+          : 205
+      return tableHeight < tableMaxHeight ? tableHeight - 48 : tableMaxHeight
     },
   },
   mounted() {
@@ -113,3 +151,14 @@ export default {
   },
 }
 </script>
+<style lang="less" scoped>
+.actions-bar {
+  text-align: left;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+.append-row {
+  margin-top: 10px;
+  height: 57px;
+}
+</style>
