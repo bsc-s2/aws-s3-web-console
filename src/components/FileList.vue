@@ -51,14 +51,14 @@
       </div>
     </el-table>
     <el-dialog title="Upload files" :visible.sync="dialogVisible">
-      <upload :bucket="bucket" :prefix="prefix"></upload>
+      <upload action="/" drag multiple :bucket="bucket" :prefix="prefix"></upload>
     </el-dialog>
   </div>
 </template>
 <script>
 import moment from 'moment'
 import { handler } from '@/service/aws'
-import upload from './Upload'
+import upload from './upload/index'
 import { keyFilter, bytes, isImage, repliceAllString } from '@/service/util'
 export default {
   name: 'fileList',
