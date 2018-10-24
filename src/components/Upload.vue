@@ -1,16 +1,13 @@
 <template>
   <div>
-    <el-upload class="upload-demo"
+    <el-upload class="upload"
                drag
                action="/"
                :http-request="upload"
-               :on-remove="handleRemove"
                :before-remove="beforeRemove"
                multiple>
       <i class="el-icon-upload"></i>
-      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <div class="el-upload__tip"
-           slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+      <div class="el-upload__text"><em>Click</em> or drag the file here to upload</div>
     </el-upload>
   </div>
 </template>
@@ -73,19 +70,15 @@ export default {
       const aws = await getS3({ timeout: 3600000 })
       const url = aws.getSignedUrl('putObject', params)
 
-      return xmlFetch(
-        url,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': props.file.type,
-            'x-amz-acl': 'public-read',
-          },
-          body: props.file,
+      return fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': props.file.type,
+          'x-amz-acl': 'public-read',
         },
-        this.onProgress(props.file)
-      )
-        .then(this.onSuccess, this.onError)
+        body: props.file,
+      })
+        .then(this.onSuccess(params.Key))
         .catch((err) => {
           this.onError(err)
         })
@@ -94,16 +87,22 @@ export default {
       return this.$confirm(`确定移除 ${file.name}？`)
     },
     onSuccess(res) {
-      console.log(res)
+      this.$notify({
+        type: 'success',
+        message: `${res} 上传成功`,
+      })
     },
-    onError(err) {
-      console.error(err)
-    },
-    onProgress(e, file) {
-      file.status = 'uploading'
-      file.percentage = e.loaded / e.total * 100
-      console.log(file.percentage)
+    onError(res) {
+      this.$notify({
+        type: 'error',
+        message: `${res} 上传成功`,
+      })
     },
   },
 }
 </script>
+<style lang="less">
+.el-upload-dragger {
+  width: 560px;
+}
+</style>

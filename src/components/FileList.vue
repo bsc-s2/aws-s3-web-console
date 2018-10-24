@@ -50,7 +50,7 @@
         <el-button v-if="nextMarker" size="small">Next pages <i class="el-icon-arrow-right"></i></el-button>
       </div>
     </el-table>
-    <el-dialog title="收货地址" :visible.sync="dialogVisible">
+    <el-dialog title="Upload files" :visible.sync="dialogVisible">
       <upload :bucket="bucket" :prefix="prefix"></upload>
     </el-dialog>
   </div>
