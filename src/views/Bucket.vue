@@ -34,6 +34,9 @@
       </el-main>
     </el-container>
     <footerBar>
+      <div slot="left">
+        <el-button size="small" type="primary">Upload file List {{ uploadFileList.length }}</el-button>
+      </div>
       <div class="logout" slot="right">
         <el-button size="small" type="danger" @click="logout">Logout</el-button>
       </div>
@@ -63,6 +66,9 @@ export default {
     },
     breadcrumb() {
       return convertPrefix2Router(this.$route.params.prefix)
+    },
+    uploadFileList() {
+      return this.$store.state.uploadFileList
     },
   },
   components: { bucketNav, bucketList, fileList, footerBar },

@@ -1,10 +1,10 @@
 <template>
   <transition-group tag="ul"
                     :class="[
-      'el-upload-list',
-      'el-upload-list--' + listType,
-      { 'is-disabled': disabled }
-    ]"
+                        'el-upload-list',
+                        'el-upload-list--' + listType,
+                        { 'is-disabled': disabled }
+                      ]"
                     name="el-list">
     <li v-for="file in files"
         :class="['el-upload-list__item', 'is-' + file.status, focusing ? 'focusing' : '']"
@@ -58,7 +58,7 @@
 </template>
 <script>
 export default {
-  name: 'ElUploadList',
+  name: 'UploadList',
 
   data() {
     return {
@@ -86,6 +86,20 @@ export default {
     },
     handleClick(file) {
       this.handlePreview && this.handlePreview(file)
+    },
+    setStore(val) {
+      this.$store.dispatch('setValues', {
+        uploadFileList: val,
+      })
+    },
+  },
+  watch: {
+    files: {
+      handler: function(val) {
+        this.setStore(val)
+      },
+      deep: true,
+      immediate: true,
     },
   },
 }

@@ -10,6 +10,7 @@ export default new Vuex.Store({
     keys: JSON.parse(sessionStorage.getItem('keys')) || {},
     bucketList: [],
     buckets: {},
+    uploadFileList: [],
   },
   actions: {
     setKeys({ commit }, keys) {
@@ -28,6 +29,9 @@ export default new Vuex.Store({
         return isGetList ? state.bucketList : state.buckets
       }
     },
+    setValues({ commit }, state) {
+      commit('SET_VALUES', state)
+    },
   },
   mutations: {
     SET_KEYS(state, keys) {
@@ -42,6 +46,9 @@ export default new Vuex.Store({
   getters: {
     hasKeys(state) {
       return Object.keys(state.keys).length > 0
+    },
+    uploading_file(state) {
+      return state.uploadFileList.filter((file) => file.state === 'uploading')
     },
   },
 })
