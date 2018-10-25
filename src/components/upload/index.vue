@@ -146,12 +146,11 @@ export default {
       if (this.listType === 'picture-card' || this.listType === 'picture') {
         try {
           file.url = URL.createObjectURL(rawFile)
-        } catch (err) {
-          console.error('[Element Error][Upload]', err)
+        } catch (e) {
+          this.$notify.error(e)
           return
         }
       }
-
       this.uploadFiles.push(file)
       this.onChange(file, this.uploadFiles)
     },
@@ -228,16 +227,6 @@ export default {
         .forEach((file) => {
           this.$refs['upload-inner'].upload(file.raw)
         })
-    },
-    getMigratingConfig() {
-      return {
-        props: {
-          'default-file-list': 'default-file-list is renamed to file-list.',
-          'show-upload-list': 'show-upload-list is renamed to show-file-list.',
-          'thumbnail-mode':
-            'thumbnail-mode has been deprecated, you can implement the same effect according to this case: http://element.eleme.io/#/zh-CN/component/upload#yong-hu-tou-xiang-shang-chuan',
-        },
-      }
     },
   },
 
