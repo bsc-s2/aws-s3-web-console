@@ -32,11 +32,4 @@ html {
 .el-form > .el-form-item:last-child {
   margin-bottom: 0;
 }
-.el-upload-list__item:focus,
-.el-upload-list__item-name:focus {
-  outline: 0;
-}
-.el-upload-list__item {
-  cursor: pointer;
-}
 </style>

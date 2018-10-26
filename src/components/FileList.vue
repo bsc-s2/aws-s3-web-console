@@ -61,23 +61,30 @@
       <upload action="/"
               drag
               multiple
+              :on-success="fileUploadSuccess"
+              :on-remove="removeUploadFile"
               :bucket="bucket"
               :prefix="prefix">
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
       </upload>
     </el-dialog>
-    <el-dialog title="New folder" :visible.sync="dialogNewFolderVisible">
+    <el-dialog title="New folder"
+               :visible.sync="dialogNewFolderVisible">
       <el-form :model="folderForm">
-        <el-form-item label="Folder name:" label-width="100px">
-          <el-input v-model="folderForm.name" autocomplete="off"></el-input>
+        <el-form-item label="Folder name:"
+                      label-width="100px">
+          <el-input v-model="folderForm.name"
+                    autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer"
+           class="dialog-footer">
         <el-button @click="dialogNewFolderVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="addFolder">Confirm</el-button>
+        <el-button type="primary"
+                   @click="addFolder">Confirm</el-button>
       </div>
-  </el-dialog>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -88,6 +95,7 @@ import {
   keyFilter,
   bytes,
   isImage,
+  isFolder,
   repliceAllString,
   removeItemFromArray,
 } from '@/service/util'
@@ -247,6 +255,27 @@ export default {
       } catch (e) {
         this.$notify.error(e)
       }
+    },
+    fileUploadSuccess(file) {
+      if (file.bucket === this.bucket && file.prefix === this.prefix) {
+        const awsFile = {
+          Key: file.name,
+          LastModified: moment(file.raw.LastModified).format(
+            'YYYY-MM-DD HH:mm',
+          ),
+          Prefix: file.prefix,
+          Size: file.size,
+          convertSize: bytes(file.size),
+          isImage: isImage({ Key: file.name }),
+          type: isFolder(file.name),
+        }
+        this.fileList = [awsFile, ...this.fileList]
+      }
+    },
+    removeUploadFile(file) {
+      const fileList = [...this.fileList]
+      const obj = fileList.find((item) => item.Key === file.name)
+      obj ? this.deleteFile(obj) : this.$notify.error('no this file')
     },
   },
   beforeDestroy() {

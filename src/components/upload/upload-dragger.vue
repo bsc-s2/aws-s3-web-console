@@ -68,3 +68,8 @@ export default {
   },
 }
 </script>
+<style lang="less" scoped>
+.el-upload-dragger {
+  width: 575px;
+}
+</style>

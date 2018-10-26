@@ -50,6 +50,10 @@ const bytesSpliteUnits = (bt, digit = 1) => {
 
 const isImage = (file) => !!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(file.Key)
 
+const isFolder = (fileName) => {
+  return fileName.slice(fileName.length - 1) === '/' ? 'folder' : 'file'
+}
+
 const repliceAllString = (strings, oldStr, newStr) => {
   let str = strings
   while (str.indexOf(oldStr) > 0) {
@@ -72,6 +76,7 @@ export {
   bytes,
   bytesSpliteUnits,
   isImage,
+  isFolder,
   repliceAllString,
   removeItemFromArray,
 }

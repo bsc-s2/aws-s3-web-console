@@ -42,7 +42,7 @@
       <div class="upload"
            v-if="hasPrefix"
            slot="left">
-        <el-popover placement="top-start"
+        <el-popover v-if="uploadFileList.length > 0" placement="top-start"
                     width="400"
                     trigger="click">
           <Upload :bucket="bucket"
@@ -56,6 +56,11 @@
             <el-button size="small">Upload file list</el-button>
           </el-badge>
         </el-popover>
+        <el-badge v-else
+                  :value="uploadFileList.length"
+                  class="item">
+          <el-button size="small">Upload file list</el-button>
+        </el-badge>
       </div>
       <div class="logout"
            slot="right">
