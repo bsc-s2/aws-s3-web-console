@@ -95,3 +95,15 @@ export default {
   },
 }
 </script>
+<style lang="less" scoped>
+.el-upload-list__item-name {
+  text-align: left;
+}
+.el-upload-list__item {
+  cursor: pointer;
+}
+.el-upload-list__item:focus,
+.el-upload-list__item-name:focus {
+  outline: 0;
+}
+</style>

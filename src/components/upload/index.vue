@@ -149,6 +149,8 @@ export default {
         status: 'ready',
         name: rawFile.name,
         size: rawFile.size,
+        bucket: this.bucket,
+        prefix: this.prefix,
         percentage: 0,
         uid: rawFile.uid,
         raw: rawFile,
@@ -178,7 +180,7 @@ export default {
         file.status = 'success'
         file.response = res
 
-        this.onSuccess(res, file, this.uploadFiles)
+        this.onSuccess(file, this.uploadFiles)
         this.onChange(file, this.uploadFiles)
       }
     },
