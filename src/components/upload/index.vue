@@ -42,6 +42,10 @@ export default {
       type: String,
       default: 'public-read',
     },
+    listMode: {
+      type: Boolean,
+      default: false,
+    },
     multiple: Boolean,
     drag: Boolean,
     dragger: Boolean,
@@ -128,6 +132,13 @@ export default {
           return item
         })
       },
+    },
+    uploadFiles: {
+      handler: function(val) {
+        !this.listMode && this.setStore(val)
+      },
+      deep: true,
+      immediate: true,
     },
   },
 
@@ -228,6 +239,11 @@ export default {
           this.$refs['upload-inner'].upload(file.raw)
         })
     },
+    setStore(val) {
+      this.$store.dispatch('setValues', {
+        uploadFileList: val,
+      })
+    },
   },
 
   beforeDestroy() {
@@ -285,12 +301,18 @@ export default {
 
     return (
       <div>
-        {this.listType === 'picture-card' ? uploadList : ''}
-        {this.$slots.trigger
-          ? [uploadComponent, this.$slots.default]
-          : uploadComponent}
-        {this.$slots.tip}
-        {this.listType !== 'picture-card' ? uploadList : ''}
+        {this.listMode ? (
+          uploadList
+        ) : (
+          <div>
+            {this.listType === 'picture-card' ? uploadList : ''}
+            {this.$slots.trigger
+              ? [uploadComponent, this.$slots.default]
+              : uploadComponent}
+            {this.$slots.tip}
+            {this.listType !== 'picture-card' ? uploadList : ''}
+          </div>
+        )}
       </div>
     )
   },
