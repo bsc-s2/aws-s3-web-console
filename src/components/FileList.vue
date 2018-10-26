@@ -273,9 +273,11 @@ export default {
       }
     },
     removeUploadFile(file) {
-      const fileList = [...this.fileList]
-      const obj = fileList.find((item) => item.Key === file.name)
-      obj ? this.deleteFile(obj) : this.$notify.error('no this file')
+      if (file.status === 'success') {
+        const fileList = [...this.fileList]
+        const obj = fileList.find((item) => item.Key === file.name)
+        obj ? this.deleteFile(obj) : this.$notify.error('no this file')
+      }
     },
   },
   beforeDestroy() {

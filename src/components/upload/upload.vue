@@ -242,3 +242,8 @@ export default {
   },
 }
 </script>
+<style lang="less" scoped>
+.el-upload {
+  display: block;
+}
+</style>

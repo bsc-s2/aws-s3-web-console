@@ -1,6 +1,5 @@
 <template>
-  <div class="wrap"
-       v-if="selectedBucket.length > 0">
+  <div class="wrap">
     <ul>
       <li v-for="bucket in bucketList"
           @click="viewBucket(bucket)"
