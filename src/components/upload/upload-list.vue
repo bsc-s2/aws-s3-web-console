@@ -13,7 +13,7 @@
         @keydown.delete="!disabled && $emit('remove', file)"
         @focus="focusing = true"
         @blur="focusing = false"
-        @click="focusing = false">
+        @click="rowClick">
       <img class="el-upload-list__item-thumbnail"
            v-if="file.status !== 'uploading' && ['picture-card', 'picture'].indexOf(listType) > -1"
            :src="file.url"
@@ -87,19 +87,10 @@ export default {
     handleClick(file) {
       this.handlePreview && this.handlePreview(file)
     },
-    setStore(val) {
-      this.$store.dispatch('setValues', {
-        uploadFileList: val,
-      })
-    },
-  },
-  watch: {
-    files: {
-      handler: function(val) {
-        this.setStore(val)
-      },
-      deep: true,
-      immediate: true,
+    rowClick() {
+      this.disabled
+        ? this.$root.Bus.$emit('clickUpload')
+        : (this.focusing = false)
     },
   },
 }

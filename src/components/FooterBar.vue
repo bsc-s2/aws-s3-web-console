@@ -1,9 +1,9 @@
 <template>
   <div class="footer-bar">
-    <div>
+    <div class="left">
       <slot name="left"></slot>
     </div>
-    <div>
+    <div class="right">
       <slot name="right"></slot>
     </div>
   </div>
@@ -21,15 +21,16 @@
   border-top: 1px solid #e8e8e8;
   z-index: 100;
 
-  & > div {
+  .left,
+  .right {
     height: 100%;
   }
 
-  & > div:first-child {
+  .left {
     margin-left: 20px;
   }
 
-  & > div:last-child {
+  .right {
     margin-right: 20px;
   }
 }

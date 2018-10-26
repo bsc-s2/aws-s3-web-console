@@ -128,6 +128,11 @@ export default {
       return tableHeight < tableMaxHeight ? tableHeight - 48 : tableMaxHeight
     },
   },
+  created() {
+    this.$root.Bus.$on('clickUpload', () => {
+      this.dialogUploadVisible = true
+    })
+  },
   mounted() {
     this.getData()
   },
@@ -243,6 +248,9 @@ export default {
         this.$notify.error(e)
       }
     },
+  },
+  beforeDestroy() {
+    this.$root.Bus.$off('clickUpload')
   },
   watch: {
     $route: function() {

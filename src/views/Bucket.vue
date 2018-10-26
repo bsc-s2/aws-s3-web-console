@@ -10,8 +10,11 @@
             <bucketNav></bucketNav>
           </div>
         </el-card>
-        <el-card shadow="hover" style="margin-top: 20px">
-          <el-button size="mini" type="danger" @click="logout">Logout</el-button>
+        <el-card shadow="hover"
+                 style="margin-top: 20px">
+          <el-button size="mini"
+                     type="danger"
+                     @click="logout">Logout</el-button>
         </el-card>
       </el-aside>
       <el-main>
@@ -20,7 +23,9 @@
                  shadow="hover">
           <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/' }">Bucket List</el-breadcrumb-item>
-            <el-breadcrumb-item v-for="{ text, prefix } in breadcrumb" :key="text" :to="{ path: prefix }">{{ text }}</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="{ text, prefix } in breadcrumb"
+                                :key="text"
+                                :to="{ path: prefix }">{{ text }}</el-breadcrumb-item>
           </el-breadcrumb>
         </el-card>
         <el-card v-if="!hasPrefix"
@@ -34,11 +39,29 @@
       </el-main>
     </el-container>
     <footerBar>
-      <div slot="left">
-        <el-button size="small" type="primary">Upload file List {{ uploadFileList.length }}</el-button>
+      <div class="upload"
+           v-if="hasPrefix"
+           slot="left">
+        <el-popover placement="top-start"
+                    width="400"
+                    trigger="click">
+          <Upload :bucket="bucket"
+                      :listMode="hasPrefix"
+                      :disabled="hasPrefix"
+                      :fileList="uploadFileList">
+          </Upload>
+          <el-badge slot="reference"
+                    :value="uploadFileList.length"
+                    class="item">
+            <el-button size="small">Upload file list</el-button>
+          </el-badge>
+        </el-popover>
       </div>
-      <div class="logout" slot="right">
-        <el-button size="small" type="danger" @click="logout">Logout</el-button>
+      <div class="logout"
+           slot="right">
+        <el-button size="small"
+                   type="danger"
+                   @click="logout">Logout</el-button>
       </div>
     </footerBar>
   </div>
@@ -48,6 +71,7 @@ import bucketNav from '@/components/BucketNav'
 import bucketList from '@/components/BucketList'
 import fileList from '@/components/FileList'
 import footerBar from '@/components/FooterBar'
+import Upload from '@/components/upload/index'
 import { convertPrefix2Router } from '@/service/util'
 export default {
   name: 'bucket',
@@ -70,8 +94,13 @@ export default {
     uploadFileList() {
       return this.$store.state.uploadFileList
     },
+    bucket() {
+      return (
+        this.$route.params.prefix && this.$route.params.prefix.split('/')[0]
+      )
+    },
   },
-  components: { bucketNav, bucketList, fileList, footerBar },
+  components: { bucketNav, bucketList, fileList, footerBar, Upload },
   methods: {
     async logout() {
       await this.$store.dispatch('setKeys', {})
@@ -86,7 +115,8 @@ export default {
   width: 50px;
   margin: 0 auto;
 }
-.logout {
+.logout,
+.upload {
   height: 100%;
   display: flex;
   align-items: center;
