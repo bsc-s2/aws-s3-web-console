@@ -1,26 +1,22 @@
-import { Message } from 'element-ui'
+let host = 'http://127.0.0.1:7001/'
 
-let host = ''
-
-function post(params) {
-  return fetch(host, {
+function post(url, params) {
+  return fetch(host + url, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
     method: 'post',
-    params,
+    body: JSON.stringify(params),
   })
 }
 
 function login(params) {
-  host = params.host
-  return post(params)
+  return post('login', params)
 }
 
-function handler(func, params) {
-  if (host === '') {
-    Message.error({ message: 'no host' })
-    return
-  }
-
-  return post(params)
+function handler(params) {
+  return post('handler', params)
 }
 
 export { login, handler }
