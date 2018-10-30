@@ -72,17 +72,21 @@
   </div>
 </template>
 <script>
+import { login } from '@/service/aws-http'
 export default {
   data() {
     return {
       baishanKeys: {
         accesskey: '',
         secretkey: '',
+        region: 'us-west-1',
+        host: 'http://ss.bscstorage.com',
       },
       awsKeys: {
         accesskey: '',
         secretkey: '',
-        region: '',
+        region: 'us-west-1',
+        host: 'http://s3.us-west-1.amazonaws.com',
       },
       baishanRules: {
         accesskey: [{ required: true, trigger: 'blur' }],
@@ -108,12 +112,13 @@ export default {
       })
     },
     async setKeysAndGetBuckets() {
-      await this.$store.dispatch(
-        'setKeys',
-        this.tabs === 'aws' ? this.awsKeys : this.baishanKeys,
-      )
-      const buckets = await this.$store.dispatch('getBuckets', {})
-      if (Object.keys(buckets).length > 0) {
+      const keys = this.tabs === 'aws' ? this.awsKeys : this.baishanKeys
+      await this.$store.dispatch('setKeys', keys)
+
+      const res = await login(keys)
+      if (Object.keys(res).length > 0 && res.token.length > 0) {
+        await this.$store.dispatch('setValues', res)
+        sessionStorage.setItem('token', res.token)
         this.$router.push({ name: 'bucket' })
       }
     },

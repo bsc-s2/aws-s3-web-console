@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    token: sessionStorage.getItem('token') || '',
     keys: JSON.parse(sessionStorage.getItem('keys')) || {},
     bucketList: [],
     buckets: {},
@@ -20,14 +21,13 @@ export default new Vuex.Store({
       { commit, state },
       { isForceUpdate = false, isGetList = true },
     ) {
-      if (Object.keys(state.buckets).length === 0 || isForceUpdate) {
-        let buckets = await handler('listBuckets')
-        const result = isRetrunList(buckets, isGetList)
-        commit('SET_VALUES', result)
-        return result
-      } else {
-        return isGetList ? state.bucketList : state.buckets
-      }
+      const buckets =
+        Object.keys(state.buckets).length === 0 || isForceUpdate
+          ? await handler('listBuckets')
+          : state.buckets
+      const result = isRetrunList(buckets, isGetList)
+      commit('SET_VALUES', result)
+      return result
     },
     setValues({ commit }, state) {
       commit('SET_VALUES', state)

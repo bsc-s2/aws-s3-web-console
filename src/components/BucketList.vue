@@ -41,7 +41,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('getBuckets', {})
+    this.$store.dispatch('getBuckets', { isGetList: true })
   },
   methods: {
     viewBucket(row) {

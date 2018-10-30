@@ -89,7 +89,7 @@
 </template>
 <script>
 import moment from 'moment'
-import { handler } from '@/service/aws'
+import { handler } from '@/service/aws-http'
 import upload from './upload/index'
 import {
   keyFilter,
