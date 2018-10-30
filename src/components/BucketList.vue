@@ -25,6 +25,7 @@
   </el-table>
 </template>
 <script>
+import { handler } from '@/service/aws-http'
 export default {
   name: 'bucketList',
   computed: {
@@ -48,8 +49,13 @@ export default {
     viewBucket(row) {
       this.$router.push(`/file/${row.Name}`)
     },
-    deleteBucket(row) {
-      console.log(row)
+    async deleteBucket(row) {
+      try {
+        await handler('deleteBucket', { Bucket: row.Name })
+        await this.$store.dispatch('getBuckets', true)
+      } catch (e) {
+        this.$notify.error(e)
+      }
     },
   },
 }
