@@ -42,13 +42,14 @@
       <div class="upload"
            v-if="hasPrefix"
            slot="left">
-        <el-popover v-if="uploadFileList.length > 0" placement="top-start"
+        <el-popover v-if="uploadFileList.length > 0"
+                    placement="top-start"
                     width="400"
                     trigger="click">
           <Upload :bucket="bucket"
-                      :listMode="hasPrefix"
-                      :disabled="hasPrefix"
-                      :fileList="uploadFileList">
+                  :listMode="hasPrefix"
+                  :disabled="hasPrefix"
+                  :fileList="uploadFileList">
           </Upload>
           <el-badge slot="reference"
                     :value="uploadFileList.length"
@@ -108,7 +109,17 @@ export default {
   components: { bucketNav, bucketList, fileList, footerBar, Upload },
   methods: {
     async logout() {
-      await this.$store.dispatch('setKeys', {})
+      await Promise.all([
+        this.$store.dispatch('setValueWithStorage', {
+          keys: {},
+          token: '',
+        }),
+        this.$store.dispatch('setValues', {
+          bucketList: [],
+          buckets: {},
+          uploadFileList: [],
+        }),
+      ])
       this.$router.push({ name: 'login' })
     },
   },

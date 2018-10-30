@@ -14,8 +14,8 @@ export default new Vuex.Store({
     uploadFileList: [],
   },
   actions: {
-    setKeys({ commit }, keys) {
-      commit('SET_KEYS', keys)
+    setValueWithStorage({ commit }, data) {
+      commit('SET_KEYS', data)
     },
     async getBuckets(
       { commit, state },
@@ -34,9 +34,13 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    SET_KEYS(state, keys) {
-      sessionStorage.setItem('keys', JSON.stringify(keys))
-      state.keys = keys
+    SET_KEYS(state, data) {
+      const keys = Object.keys(data)
+      keys.length > 0 &&
+        keys.forEach((key) => {
+          sessionStorage.setItem(key, JSON.stringify(data[key]))
+          state[key] = data[key]
+        })
     },
     SET_VALUES(state, data) {
       const _state = Object.assign(state, data)

@@ -113,7 +113,7 @@ export default {
     },
     async setKeysAndGetBuckets() {
       const keys = this.tabs === 'aws' ? this.awsKeys : this.baishanKeys
-      await this.$store.dispatch('setKeys', keys)
+      await this.$store.dispatch('setValueWithStorage', { keys })
 
       const res = await login(keys)
       if (Object.keys(res).length > 0 && res.token.length > 0) {
