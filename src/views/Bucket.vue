@@ -6,7 +6,25 @@
                  shadow="hover">
           <div>
             <el-button type="primary"
-                       size="mini">New Bucket</el-button>
+                       size="mini"
+                       @click="dialogNewBucketVisible = true">New Bucket</el-button>
+            <el-dialog title="New bucket"
+                :visible.sync="dialogNewBucketVisible">
+              <el-form :model="bucketForm"
+                       :rules="bucketRules">
+                <el-form-item label="Bucket name:"
+                              label-width="100px">
+                  <el-input v-model="bucketForm.name"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-form>
+              <div slot="footer"
+                  class="dialog-footer">
+                <el-button @click="dialogNewBucketVisible = false">Cancel</el-button>
+                <el-button type="primary" :disabled="bucketForm.name.length === 0"
+                          @click="createBucket">Confirm</el-button>
+              </div>
+            </el-dialog>
             <bucketNav></bucketNav>
           </div>
         </el-card>
@@ -79,13 +97,18 @@ import fileList from '@/components/FileList'
 import footerBar from '@/components/FooterBar'
 import Upload from '@/components/upload/index'
 import { convertPrefix2Router } from '@/service/util'
+import { handler } from '@/service/aws-http'
 export default {
   name: 'bucket',
   data() {
     return {
       createBucketValue: '',
       fetchDone: false,
-      createBucketModal: false,
+      dialogNewBucketVisible: false,
+      bucketForm: { name: '' },
+      bucketRules: {
+        name: [{ required: true, trigger: 'blur' }],
+      },
       inputCheck: false,
       fileList: [],
     }
@@ -121,6 +144,16 @@ export default {
         }),
       ])
       this.$router.push({ name: 'login' })
+    },
+    async createBucket() {
+      if (!this.bucketForm.name) return
+      this.dialogNewBucketVisible = false
+      try {
+        await handler('createBucket', { Bucket: this.bucketForm.name })
+        this.$store.dispatch('getBuckets', true)
+      } catch (e) {
+        this.$notify.error(e)
+      }
     },
   },
 }

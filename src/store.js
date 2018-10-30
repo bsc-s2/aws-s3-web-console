@@ -9,7 +9,6 @@ export default new Vuex.Store({
   state: {
     token: sessionStorage.getItem('token') || '',
     keys: JSON.parse(sessionStorage.getItem('keys')) || {},
-    bucketList: [],
     buckets: {},
     uploadFileList: [],
   },
@@ -17,17 +16,13 @@ export default new Vuex.Store({
     setValueWithStorage({ commit }, data) {
       commit('SET_KEYS', data)
     },
-    async getBuckets(
-      { commit, state },
-      { isForceUpdate = false, isGetList = true },
-    ) {
+    async getBuckets({ commit, state }, isForceUpdate = false) {
       const buckets =
         Object.keys(state.buckets).length === 0 || isForceUpdate
           ? await handler('listBuckets')
           : state.buckets
-      const result = isRetrunList(buckets, isGetList)
-      commit('SET_VALUES', result)
-      return result
+      commit('SET_VALUES', { buckets })
+      return buckets
     },
     setValues({ commit }, state) {
       commit('SET_VALUES', state)
@@ -51,20 +46,21 @@ export default new Vuex.Store({
     hasKeys(state) {
       return Object.keys(state.keys).length > 0
     },
+    getBucketList(state) {
+      return state.buckets.Buckets && state.buckets.Buckets.length > 0
+        ? isRetrunList(state.buckets)
+        : []
+    },
     uploading_file(state) {
       return state.uploadFileList.filter((file) => file.state === 'uploading')
     },
   },
 })
 
-function isRetrunList(buckets, isGetList) {
-  if (isGetList) {
-    const list = [...buckets.Buckets]
-    list.forEach((item) => {
-      item.CreationDate = moment(item.CreationDate).format('YYYY-MM-DD HH:mm')
-    })
-    return { bucketList: list }
-  } else {
-    return { buckets: buckets }
-  }
+function isRetrunList(buckets) {
+  const list = [...buckets.Buckets]
+  list.forEach((item) => {
+    item.CreationDate = moment(item.CreationDate).format('YYYY-MM-DD HH:mm')
+  })
+  return list
 }

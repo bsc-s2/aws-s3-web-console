@@ -13,7 +13,7 @@ export default {
   name: 'BucketNav',
   computed: {
     bucketList() {
-      return this.$store.state.bucketList
+      return this.$store.getters.getBucketList
     },
     selectedBucket() {
       return (
@@ -24,7 +24,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('getBuckets', {})
+    this.$store.dispatch('getBuckets')
   },
   methods: {
     viewBucket(row) {

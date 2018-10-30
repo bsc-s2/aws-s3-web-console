@@ -18,7 +18,8 @@
                    size="small"
                    @click="viewBucket(row)">View</el-button>
         <el-button type="text"
-                   size="small">Delete</el-button>
+                   size="small"
+                   @click="deleteBucket(row)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -28,7 +29,7 @@ export default {
   name: 'bucketList',
   computed: {
     bucketList() {
-      return this.$store.state.bucketList
+      return this.$store.getters.getBucketList
     },
     tableHeight() {
       const scrollHeight = document.querySelector('body').offsetHeight
@@ -41,11 +42,14 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('getBuckets', { isGetList: true })
+    this.$store.dispatch('getBuckets')
   },
   methods: {
     viewBucket(row) {
       this.$router.push(`/file/${row.Name}`)
+    },
+    deleteBucket(row) {
+      console.log(row)
     },
   },
 }
