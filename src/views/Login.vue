@@ -97,7 +97,7 @@ export default {
         secretkey: [{ required: true, trigger: 'blur' }],
         region: [{ required: true, trigger: 'blur' }],
       },
-      tabs: 'baishan',
+      tabs: 'aws',
     }
   },
   methods: {
