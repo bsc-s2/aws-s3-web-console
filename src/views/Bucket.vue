@@ -56,9 +56,8 @@
         </el-card>
       </el-main>
     </el-container>
-    <footerBar>
+    <footerBar v-if="hasPrefix">
       <div class="upload"
-           v-if="hasPrefix"
            slot="left">
         <el-popover v-if="uploadFileList.length > 0"
                     placement="top-start"

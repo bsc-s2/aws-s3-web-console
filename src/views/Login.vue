@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="wrap">
-      <h1>a simple aws s3 web console</h1>
+      <h1>A simple s3 management console</h1>
       <div class="login-form">
         <el-tabs v-model="tabs">
           <el-tab-pane label="BaishanCloud"

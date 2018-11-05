@@ -26,8 +26,11 @@ html {
 .el-aside {
   padding: 20px 0 20px 20px;
 }
+.el-dialog__header {
+  text-align: left;
+}
 .el-dialog__body {
-  padding: 20px 20px !important;
+  padding: 0 20px 20px !important;
 }
 .el-form > .el-form-item:last-child {
   margin-bottom: 0;

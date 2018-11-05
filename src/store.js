@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import moment from 'moment'
-import { handler } from './service/aws'
+import { handler } from './service/aws-http'
 
 Vue.use(Vuex)
 

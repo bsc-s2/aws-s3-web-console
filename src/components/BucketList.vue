@@ -1,33 +1,62 @@
 <template>
-  <el-table ref="multipleTable"
-            stripe
-            :height="tableHeight"
-            :data="bucketList"
-            tooltip-effect="dark">
-    <el-table-column prop="Name"
-                     label="Bucket">
-    </el-table-column>
-    <el-table-column prop="CreationDate"
-                     width="180"
-                     label="CreationDate">
-    </el-table-column>
-    <el-table-column label="Actions"
-                     width="150">
-      <template slot-scope="{ row }">
-        <el-button type="text"
-                   size="small"
-                   @click="viewBucket(row)">View</el-button>
-        <el-button type="text"
-                   size="small"
-                   @click="deleteBucket(row)">Delete</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div>
+    <el-table ref="multipleTable"
+              stripe
+              :height="tableHeight"
+              :data="bucketList"
+              tooltip-effect="dark">
+      <el-table-column label="Bucket">
+        <template slot-scope="{ row }">
+          <el-button type="text"
+                    size="small"
+                    @click="viewBucket(row)">{{ row.Name }}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="CreationDate"
+                      width="180"
+                      label="CreationDate">
+      </el-table-column>
+      <el-table-column label="Actions"
+                      width="200">
+        <template slot-scope="{ row }">
+          <el-button type="text"
+                    size="small"
+                    @click="selectedBucket = row;settingDialogVisible = true">Permissions</el-button>
+          <el-button type="text"
+                    size="small"
+                    @click="viewBucket(row)">View</el-button>
+          <el-button type="text"
+                    size="small"
+                    @click="deleteBucket(row)">Delete</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-dialog
+      title="Permissions"
+      :visible.sync="settingDialogVisible"
+      width="1000px">
+      <el-tabs v-model="activeTab" type="card">
+        <el-tab-pane label="Access Control List" name="acl">
+          <Acl :bucket="selectedBucket.Name" :dialogVisible="settingDialogVisible"></Acl>
+        </el-tab-pane>
+        <el-tab-pane label="CORS Configuration" name="cors">CORS</el-tab-pane>
+      </el-tabs>
+    </el-dialog>
+  </div>
 </template>
 <script>
 import { handler } from '@/service/aws-http'
+import Acl from './ACL'
 export default {
   name: 'bucketList',
+  data() {
+    return {
+      settingDialogVisible: false,
+      activeTab: 'acl',
+      selectedBucket: {},
+    }
+  },
+  components: { Acl },
   computed: {
     bucketList() {
       return this.$store.getters.getBucketList
