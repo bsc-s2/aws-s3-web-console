@@ -37,7 +37,7 @@
       width="1000px">
       <el-tabs v-model="activeTab" type="card">
         <el-tab-pane label="Access Control List" name="acl">
-          <Acl :bucket="selectedBucket.Name" :dialogVisible="settingDialogVisible"></Acl>
+          <Acl :bucket="selectedBucket.Name" v-on:close-dialog="settingDialogVisible = false"></Acl>
         </el-tab-pane>
         <el-tab-pane label="CORS Configuration" name="cors">CORS</el-tab-pane>
       </el-tabs>

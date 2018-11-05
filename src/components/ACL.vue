@@ -28,6 +28,9 @@
     </el-table>
     <div class="dialog-button">
       <el-button size="small"
+                 @click="$emit('close-dialog')">
+        Cancel</el-button>
+      <el-button size="small"
                  @click="addUserDialogVisible = true">
         Add account</el-button>
       <el-button size="small"
@@ -54,6 +57,13 @@
           <el-checkbox v-model="newUserItem.Permission.WRITE_ACP">Write bucket permissions</el-checkbox>
         </el-form-item>
       </el-form>
+      <div slot="footer"
+           class="dialog-footer">
+        <el-button size="mini" @click="addUserDialogVisible = false">Cancel</el-button>
+        <el-button size="mini"
+                   type="primary"
+                   @click="addUser">Confirm</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -63,10 +73,6 @@ export default {
   props: {
     bucket: {
       type: String,
-      required: true,
-    },
-    dialogVisible: {
-      type: Boolean,
       required: true,
     },
   },
@@ -166,10 +172,16 @@ export default {
       }
       try {
         await handler('putBucketAcl', params)
+        this.$emit('close-dialog')
         this.deleteList = []
       } catch (e) {
         this.$notify.error(e)
       }
+    },
+  },
+  watch: {
+    bucket() {
+      this.getACLList()
     },
   },
   filters: {
