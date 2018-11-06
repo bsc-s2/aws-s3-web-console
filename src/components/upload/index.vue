@@ -256,7 +256,7 @@ export default {
     })
   },
 
-  render(h) {
+  render() {
     let uploadList
 
     if (this.showFileList) {

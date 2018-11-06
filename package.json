@@ -43,6 +43,7 @@
       "no-extra-boolean-cast": 0,
       "no-new": 0,
       "array-callback-return": 0,
+      "no-useless-escape": 0,
       "complexity": 0,
       "no-empty": 0,
       "np-console": 0,

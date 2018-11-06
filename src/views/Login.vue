@@ -100,7 +100,7 @@ export default {
         if (valid) {
           this.setKeysAndGetBuckets()
         } else {
-          console.log('error submit!!')
+          this.$notify.error('error submit!!')
           return false
         }
       })

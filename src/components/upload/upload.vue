@@ -196,7 +196,7 @@ export default {
     },
   },
 
-  render(h) {
+  render() {
     let {
       handleClick,
       drag,
