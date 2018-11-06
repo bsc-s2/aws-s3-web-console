@@ -2,7 +2,9 @@
 <p align="center"><b>为 S3 文件管理提供一个简单方便的选择</b></p>
 
 <div align="center">
+
 ![](https://ss.bscstorage.com/front-end-resource/WX20181106-164439.png)
+
 </div>
 
 ### 特性
@@ -14,7 +16,7 @@
 
 ### 已实现功能
 
-- 使用 `accessKey & secretKey` 登录管理平台
+- 使用 `accessKey & secretKey` 登录管理平台
 - 新建、删除 bucket, 获取 bucket 列表
 - bucket 中的 `ACL` `CORS` 配置
 - 上传文件、删除文件、按文件夹浏览文件列表
@@ -40,5 +42,5 @@
 
 ### Tips
 
-- 本地 `aws-sdk` 处理文件上传请求签名功能，其他请求使用 [aws-node-server](https://github.com/bsc-s2/aws-s3-node-server) 作为中间层发送给 S3 服务器, 该项目也已经开源，目前源码中的地址为测试用服务器且配置较低，请求可能出现失败的情况
-- `ak & sk` 会保存在 `sessionStorage` 中
+- 本地 `aws-sdk` 处理文件上传请求签名功能，其他请求使用 [aws-node-server](https://github.com/bsc-s2/aws-s3-node-server) 作为中间层发送给 S3 服务器, 该项目也已经开源，目前源码中的地址为测试用服务器且配置较低，请求可能出现失败的情况
+- `ak & sk` 会保存在 `sessionStorage` 中
