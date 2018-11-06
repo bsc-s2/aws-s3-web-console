@@ -53,12 +53,6 @@
                           v-model="awsKeys.secretkey"
                           autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="region"
-                            prop="region">
-                <el-input type="region"
-                          v-model="awsKeys.region"
-                          autocomplete="off"></el-input>
-              </el-form-item>
               <el-form-item>
                 <el-button type="primary"
                            @click="submitForm('awsKeys')">Submit</el-button>
