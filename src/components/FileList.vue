@@ -33,7 +33,7 @@
                        width="150">
       </el-table-column>
       <el-table-column label="Actions"
-                       width="200">
+                       width="120">
         <template slot-scope="{ row }">
           <el-button type="text"
                      v-show="row.type === 'folder'"

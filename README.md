@@ -1,6 +1,10 @@
 <h2 align="center">白山云存储基于 AWS S3 标准开发的存储文件管理平台</h2>
 <p align="center"><b>为 S3 文件管理提供一个简单方便的选择</b></p>
 
+<div align="center">
+![](https://ss.bscstorage.com/front-end-resource/WX20181106-164439.png)
+</div>
+
 ### 特性
 
 - 支持所有基于 `aws-s3` 标准开发的存储系统
