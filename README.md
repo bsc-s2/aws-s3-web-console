@@ -18,7 +18,7 @@
 
 - 使用 `accessKey & secretKey` 登录管理平台
 - 新建、删除 bucket, 获取 bucket 列表
-- bucket 中的 `ACL` `CORS` 配置
+- bucket `ACL` `CORS` 配置
 - 上传文件、删除文件、按文件夹浏览文件列表
 
 ### Todo
