@@ -3,6 +3,7 @@
     <el-table :data="aclList"
               stripe
               v-loading="loading"
+              empty-text="No ACL Settings"
               style="width: 100%">
       <el-table-column label="Grantee"
                        prop="Grantee"
@@ -320,7 +321,7 @@ const convertNewUserItem = (item) => {
   return newItem
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .dialog-button {
   margin-top: 12px;
   text-align: right;

@@ -4,6 +4,7 @@
               stripe
               :height="tableHeight"
               :data="bucketList"
+              empty-text="No buckets"
               tooltip-effect="dark">
       <el-table-column label="Bucket">
         <template slot-scope="{ row }">
@@ -39,7 +40,9 @@
         <el-tab-pane label="Access Control List" name="acl">
           <Acl :bucket="selectedBucket.Name" v-on:close-dialog="settingDialogVisible = false"></Acl>
         </el-tab-pane>
-        <el-tab-pane label="CORS Configuration" name="cors">CORS</el-tab-pane>
+        <el-tab-pane label="CORS Configuration" name="cors">
+          <Cors :bucket="selectedBucket.Name" v-on:close-dialog="settingDialogVisible = false"></Cors>
+        </el-tab-pane>
       </el-tabs>
     </el-dialog>
   </div>
@@ -47,6 +50,7 @@
 <script>
 import { handler } from '@/service/aws-http'
 import Acl from './ACL'
+import Cors from './CORS'
 export default {
   name: 'bucketList',
   data() {
@@ -56,7 +60,7 @@ export default {
       selectedBucket: {},
     }
   },
-  components: { Acl },
+  components: { Acl, Cors },
   computed: {
     bucketList() {
       return this.$store.getters.getBucketList
