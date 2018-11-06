@@ -40,9 +40,6 @@
                      @click="viewFolder(row)"
                      size="small">View</el-button>
           <el-button type="text"
-                     v-show="row.type !== 'folder'"
-                     size="small">Edit</el-button>
-          <el-button type="text"
                      @click="deleteFile(row)"
                      size="small">Delete</el-button>
         </template>
