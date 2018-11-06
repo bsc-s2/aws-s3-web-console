@@ -3,7 +3,7 @@
 
 <div align="center">
 
-![](https://ss.bscstorage.com/front-end-resource/WX20181106-164439.png)
+![](https://ss.bscstorage.com/front-end-resource/preview-console.png)
 
 </div>
 
