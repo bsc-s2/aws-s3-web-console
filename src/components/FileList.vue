@@ -10,10 +10,19 @@
       <el-button type="danger"
                  :disabled="fileList.length === 0"
                  size="small">Delete</el-button>
+      <el-autocomplete class="inline-input"
+                       size="small"
+                       suffix-icon="el-icon-search"
+                       :fetch-suggestions="querySearch"
+                       placeholder="Search files"
+                       :trigger-on-focus="false"
+                       @select="searchFile">
+      </el-autocomplete>
     </div>
     <el-table ref="multipleTable"
               stripe
               :height="tableHeight"
+              highlight-current-row
               empty-text="No files"
               :data="fileList"
               v-loading="loading"
@@ -106,6 +115,7 @@ export default {
       fileList: [],
       loading: false,
       nextMarker: '',
+      searchValue: '',
       makerArray: [],
       folderForm: { name: '' },
       dialogNewFolderVisible: false,
@@ -179,6 +189,23 @@ export default {
       } catch (error) {
         this.loading = false
       }
+    },
+    searchFile(item) {
+      this.$refs.multipleTable.setCurrentRow(item.file)
+    },
+    querySearch(queryString, cb) {
+      const results = queryString
+        ? this.fileList.filter((file) => {
+            return (
+              file.Key.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+            )
+          })
+        : [...this.fileList]
+      cb(
+        results.map((file) => {
+          return { value: file.Key, file: file }
+        }),
+      )
     },
     previousPage() {
       let maker = this.makerArray[this.makerArray.length - 2]
@@ -304,6 +331,10 @@ export default {
   text-align: left;
   padding-bottom: 8px;
   margin-bottom: 8px;
+
+  .el-autocomplete {
+    float: right;
+  }
 }
 .append-row {
   margin-top: 10px;
