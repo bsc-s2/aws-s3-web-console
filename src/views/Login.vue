@@ -148,9 +148,9 @@ export default {
     },
     async setKeysAndGetBuckets(formName) {
       const keys =
-        formName === 'aws'
+        formName === 'awsKeys'
           ? this.awsKeys
-          : formName === 'baishan'
+          : formName === 'baishanKeys'
             ? this.baishanKeys
             : this.othersKeys
       await this.$store.dispatch('setValueWithStorage', { keys })
