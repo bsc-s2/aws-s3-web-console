@@ -19,6 +19,11 @@
                        @select="searchFile">
       </el-autocomplete>
     </div>
+    <a download
+       id="element-download"
+       style="display:none">
+      <span id="span-download"></span>
+    </a>
     <el-table ref="multipleTable"
               stripe
               :height="tableHeight"
@@ -42,12 +47,16 @@
                        width="150">
       </el-table-column>
       <el-table-column label="Actions"
-                       width="120">
+                       width="200">
         <template slot-scope="{ row }">
           <el-button type="text"
                      v-show="row.type === 'folder'"
                      @click="viewFolder(row)"
                      size="small">View</el-button>
+          <el-button type="text"
+                     v-show="row.type !== 'folder'"
+                     @click="download(row)"
+                     size="small">Download</el-button>
           <el-button type="text"
                      @click="deleteFile(row)"
                      size="small">Delete</el-button>
@@ -99,6 +108,7 @@
 <script>
 import moment from 'moment'
 import { handler } from '@/service/aws-http'
+import { getS3 } from '@/service/aws'
 import upload from './upload/index'
 import {
   keyFilter,
@@ -206,6 +216,11 @@ export default {
           return { value: file.Key, file: file }
         }),
       )
+    },
+    async download(file) {
+      const url = await getURL(this.bucket, file, this.prefix, true)
+      document.querySelector('#element-download').href = url
+      document.querySelector('#span-download').click()
     },
     previousPage() {
       let maker = this.makerArray[this.makerArray.length - 2]
@@ -324,6 +339,29 @@ export default {
       this.getData()
     },
   },
+}
+const getURL = async (bucket, file, prefix, isDownload = false) => {
+  try {
+    let getURLparams = isDownload
+      ? {
+          Bucket: bucket,
+          Key: prefix + file.Key,
+          ResponseContentDisposition: 'attachment',
+        }
+      : { Bucket: bucket, Key: prefix + file.Key }
+    let getAclparams = { Bucket: bucket, Key: prefix + file.Key }
+    let s3 = await getS3()
+    let url = await s3.getSignedUrl('getObject', getURLparams)
+    let acl = await handler('getObjectAcl', getAclparams)
+    let isAllUser = acl.Grants.find(
+      (item) =>
+        item.Grantee.URI &&
+        item.Grantee.URI === 'http://acs.amazonaws.com/groups/global/AllUsers',
+    )
+    return isDownload ? url : isAllUser ? url.split('?')[0] : url
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 </script>
 <style lang="less" scoped>
