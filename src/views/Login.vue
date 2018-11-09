@@ -60,6 +60,40 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
+          <el-tab-pane label="Others"
+                       name="others">
+            <el-form :model="othersKeys"
+                     status-icon
+                     :rules="othersRules"
+                     ref="othersKeys"
+                     label-position="left"
+                     label-width="80px"
+                     class="demo-ruleForm">
+              <el-form-item label="accesskey"
+                            prop="accesskey">
+                <el-input type="text"
+                          v-model="othersKeys.accesskey"
+                          autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="secretkey"
+                            prop="secretkey">
+                <el-input type="password"
+                          v-model="othersKeys.secretkey"
+                          autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="host"
+                            prop="host">
+                <el-input type="text"
+                          v-model="othersKeys.host"
+                          autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary"
+                           @click="submitForm('othersKeys')">Submit</el-button>
+                <el-button @click="resetForm('othersKeys')">Reset</el-button>
+              </el-form-item>
+            </el-form>
+          </el-tab-pane>
         </el-tabs>
       </div>
     </div>
@@ -73,14 +107,17 @@ export default {
       baishanKeys: {
         accesskey: '',
         secretkey: '',
-        region: 'us-west-1',
         host: 'http://ss.bscstorage.com',
       },
       awsKeys: {
         accesskey: '',
         secretkey: '',
-        region: 'us-west-1',
         host: 'http://s3.us-west-1.amazonaws.com',
+      },
+      othersKeys: {
+        accesskey: '',
+        secretkey: '',
+        host: '',
       },
       baishanRules: {
         accesskey: [{ required: true, trigger: 'blur' }],
@@ -89,7 +126,11 @@ export default {
       awsRules: {
         accesskey: [{ required: true, trigger: 'blur' }],
         secretkey: [{ required: true, trigger: 'blur' }],
-        region: [{ required: true, trigger: 'blur' }],
+      },
+      othersRules: {
+        accesskey: [{ required: true, trigger: 'blur' }],
+        secretkey: [{ required: true, trigger: 'blur' }],
+        host: [{ required: true, trigger: 'blur' }],
       },
       tabs: 'aws',
     }
@@ -98,15 +139,20 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.setKeysAndGetBuckets()
+          this.setKeysAndGetBuckets(formName)
         } else {
           this.$notify.error('error submit!!')
           return false
         }
       })
     },
-    async setKeysAndGetBuckets() {
-      const keys = this.tabs === 'aws' ? this.awsKeys : this.baishanKeys
+    async setKeysAndGetBuckets(formName) {
+      const keys =
+        formName === 'aws'
+          ? this.awsKeys
+          : formName === 'baishan'
+            ? this.baishanKeys
+            : this.othersKeys
       await this.$store.dispatch('setValueWithStorage', { keys })
 
       const res = await login(keys)
