@@ -44,12 +44,15 @@
                      size="small">Delete</el-button>
         </template>
       </el-table-column>
-      <div v-if="nextMarker"
+      <div v-if="nextMarker || makerArray.length"
            slot="append"
            class="append-row">
         <el-button size="small"
+                   v-if="makerArray.length > 0"
+                   @click="previousPage"
                    icon="el-icon-arrow-left">Before pages</el-button>
         <el-button v-if="nextMarker"
+                   @click="nextPage"
                    size="small">Next pages <i class="el-icon-arrow-right"></i></el-button>
       </div>
     </el-table>
@@ -176,6 +179,15 @@ export default {
       } catch (error) {
         this.loading = false
       }
+    },
+    previousPage() {
+      let maker = this.makerArray[this.makerArray.length - 2]
+      this.makerArray.pop()
+      this.getData(maker, this.searchValue)
+    },
+    nextPage() {
+      this.nextMarker && this.makerArray.push(this.nextMarker)
+      this.getData(this.nextMarker, this.searchValue)
     },
     viewFolder(folder) {
       this.$router.push(

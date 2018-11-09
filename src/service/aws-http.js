@@ -1,7 +1,7 @@
 import { Message } from 'element-ui'
 import store from '@/store'
 
-let host = 'http://47.75.196.0:8080/'
+let host = 'http://192.144.140.39:8080/'
 
 function parseJson(response) {
   return response.json().then((data) => {
