@@ -7,7 +7,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: sessionStorage.getItem('token') || '',
     keys: JSON.parse(sessionStorage.getItem('keys')) || {},
     buckets: {},
     uploadFileList: [],

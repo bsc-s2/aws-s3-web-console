@@ -1,7 +1,6 @@
 import { Message } from 'element-ui'
-import store from '@/store'
 
-let host = 'http://111.62.6.198:8080/'
+let host = 'http://127.0.0.1:7001/'
 
 function parseJson(response) {
   return response.json().then((data) => {
@@ -19,9 +18,9 @@ function post(url, params) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: store.state.token || '',
         },
         method: 'post',
+        credentials: 'include',
         body: JSON.stringify(params),
       })
         .then(parseJson)

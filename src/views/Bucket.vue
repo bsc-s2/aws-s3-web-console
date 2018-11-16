@@ -134,7 +134,6 @@ export default {
       await Promise.all([
         this.$store.dispatch('setValueWithStorage', {
           keys: {},
-          token: '',
         }),
         this.$store.dispatch('setValues', {
           bucketList: [],

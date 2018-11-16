@@ -132,7 +132,7 @@ export default {
         secretkey: [{ required: true, trigger: 'blur' }],
         host: [{ required: true, trigger: 'blur' }],
       },
-      tabs: 'aws',
+      tabs: 'baishan',
     }
   },
   methods: {
@@ -156,9 +156,8 @@ export default {
       await this.$store.dispatch('setValueWithStorage', { keys })
 
       const res = await login(keys)
-      if (Object.keys(res).length > 0 && res.token.length > 0) {
+      if (Object.keys(res).length > 0) {
         await this.$store.dispatch('setValues', res)
-        sessionStorage.setItem('token', res.token)
         this.$router.push({ name: 'bucket' })
       }
     },
